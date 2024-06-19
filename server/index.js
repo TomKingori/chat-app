@@ -30,4 +30,3 @@ io.on("connection", (socket) => {
     io.emit("message", `${socket.id.substring(0, 5)}: ${data}`);
   });
 });
-
