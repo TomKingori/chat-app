@@ -1,9 +1,19 @@
-const { createServer } = require("http");
+const express = require('express')
 const { Server } = require("socket.io");
+const path = require('path')
+require('dotenv').config()
 
-const httpServer = createServer();
+const PORT = process.env.PORT || 3400
 
-const io = new Server(httpServer, {
+const app = express()
+
+app.use(express.static(path.join(__dirname, "public")))
+
+const expressServer = app.listen(PORT, ()=>{
+  console.log(`listening on port ${PORT}`)
+})
+
+const io = new Server(expressServer, {
   cors: {
     origin:
       process.env.NODE_ENV === "production"
@@ -21,4 +31,3 @@ io.on("connection", (socket) => {
   });
 });
 
-httpServer.listen(3400, () => console.log("listening on port 3400"));
